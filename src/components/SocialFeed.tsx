@@ -18,8 +18,9 @@ export function SocialFeed() {
       post: {
         type: metadata.type,
         content: metadata.content,
-      } as PostMetadata,
-      profile: profileData as ProfileMetadata,
+        address: post.address
+      },
+      profile: profileData,
     };
   });
 
