@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useGumContext } from "@gumhq/react-sdk";
+import { PublicKey } from "@solana/web3.js";
 import { Spacer } from "@nextui-org/react";
 import { ProfileMetadata } from "./Profile";
 import { Post, PostMetadata } from "./Post";
+import { getAllPost, getProfileAccount } from "@/utils";
 
 export interface FeedMetadata {
   posts: {
@@ -14,6 +17,21 @@ export interface FeedMetadata {
 }
 
 function Feed({ posts, skip, show, gap }: FeedMetadata) {
+  const { sdk } = useGumContext();
+
+  useEffect(() => {
+    const getData = async () => {
+      const data = await getProfileAccount(
+        sdk,
+        new PublicKey("6FKC12h85MmiZ1WtYamRJE3SpcrgUkSr8maWsLAoKwjQ")
+      );
+
+      // console.log(data);
+    };
+
+    getData();
+  }, []);
+  console.log(posts);
   return (
     <>
       <div className="">

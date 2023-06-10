@@ -1,11 +1,36 @@
 import styles from "@/styles/CreateProfile.module.css";
 import { SDK, useGumContext, useProfile } from "@gumhq/react-sdk";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { getAllPost, getProfileAccount } from "@/utils";
 import { PublicKey } from "@solana/web3.js";
 import Header from "@/components/Header";
 import { Profile as ProfileFC } from "@/components/gum/Profile";
+import { useEffect, useState } from "react";
+import Post from "@/components/Post";
+// import { Post } from "./createPost";
+
+export type PostType = {
+  content: {
+    content: string;
+    image: string;
+    time: number;
+    format: string;
+  };
+  type: string;
+  authorship: {
+    signature: string;
+    publicKey: string;
+  };
+  metadataUri: string;
+  platform: string;
+  transactionUrl: string;
+};
 
 function Profile() {
+  const [posts, setPosts] = useState<PostType[]>([]);
   const { sdk } = useGumContext();
+  const wallet = useWallet();
+
   const { profile } = useProfile(
     sdk,
     new PublicKey("HbaeYzrgBnM8gPshvNgd2xH7mV5fpBnAo3Gqwr1xfjD2")
@@ -24,6 +49,26 @@ function Profile() {
       },
     },
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      if (wallet.publicKey) {
+        const data = await getAllPost(sdk, wallet.publicKey);
+        console.log(data);
+        if (data) {
+          let postsData = [];
+          for (const post of data) {
+            if (post.platform === "ambitionHub") {
+              postsData.push(post);
+            }
+          }
+          setPosts(postsData as PostType[]);
+        }
+      }
+    };
+
+    getData();
+  }, []);
   return (
     <>
       <Header />
@@ -42,6 +87,15 @@ function Profile() {
         </form> */}
         <div className="flex justify-center">
           <ProfileFC data={profileData} />
+        </div>
+
+        <div>
+          <div className="text-center mt-5">
+            <h4 className="text-black font-semibold text-3xl">My Posts</h4>
+          </div>
+          <div className="flex flex-col items-center">
+            {posts.length > 0 ? <Post posts={posts} /> : null}
+          </div>
         </div>
       </div>
     </>

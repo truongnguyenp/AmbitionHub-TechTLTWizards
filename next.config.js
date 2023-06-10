@@ -4,7 +4,12 @@ const path = require("path");
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['seeklogo.com'],
+    domains: [
+      "seeklogo.com",
+      "b-f57-zpg-r.zdn.vn",
+      "f50-zpg-r.zdn.vn",
+      "givenow.vn",
+    ],
   },
   // webpack: (config, options) => {
   //   config.resolve.alias = {
@@ -15,6 +20,6 @@ const nextConfig = {
 
   //   return config;
   // },
-}
+};
 
 module.exports = nextConfig;

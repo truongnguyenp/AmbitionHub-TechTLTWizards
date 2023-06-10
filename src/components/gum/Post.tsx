@@ -17,6 +17,7 @@ export interface PostMetadata {
   content: {
     content: string;
     format: string;
+    image: string;
   };
   reply?: () => any;
 }
@@ -33,6 +34,7 @@ function Post({
     like: async () => alert("Like"),
     unlike: async () => alert("Unlike"),
   };
+
   return (
     <>
       {data && profileData ? (
@@ -61,14 +63,14 @@ function Post({
             <Image
               //   width={'auto'}
               //   height={180}
-              src="https://github.com/nextui-org/nextui/blob/next/apps/docs/public/nextui-banner.jpeg?raw=true"
+              src={data.content.image as string}
               alt="Default Image"
               objectFit="cover"
             />
             <Spacer y={1} />
-            <div className="flex items-center gap-3 mb-4">
+            {/* <div className="flex items-center gap-3 mb-4">
               <LikeButton data={likeData} />
-            </div>
+            </div> */}
             <Button
               auto
               rounded
