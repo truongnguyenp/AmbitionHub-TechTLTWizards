@@ -8,6 +8,7 @@ import SkeletonWrapper, { Skeleton } from "./Skeleton";
 export function SocialFeed() {
   const { sdk } = useGumContext();
   const [feeds, setFeeds] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { exploreFeedData, exploreFeedLoading } = useExploreFeed(
     sdk,
@@ -21,6 +22,7 @@ export function SocialFeed() {
   }, [exploreFeedData]);
 
   const testGetData = async (data: any) => {
+    setLoading(true);
     let feedsData = [];
     for (const post of data) {
       if (post.metadata.platform === "ambitionHub") {
@@ -43,11 +45,12 @@ export function SocialFeed() {
       }
     }
     setFeeds(feedsData);
+    setLoading(false);
   };
 
   return (
     <div>
-      {exploreFeedLoading ? (
+      {exploreFeedLoading || loading ? (
         <SkeletonWrapper>
           <div className="w-[700px]">
             <div className="flex items-center mb-2">
