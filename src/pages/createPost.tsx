@@ -48,6 +48,7 @@ const CreatePost = () => {
   const [profile, setProfile] = useState<PublicKey | undefined>(undefined);
   const [posts, setPosts] = useState<Post[]>([]);
   const [image, setImage] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -57,8 +58,8 @@ const CreatePost = () => {
         if (userAccount) {
           setUser(userAccount);
           const profileAccount = await getProfileAccount(sdk, userAccount);
-          const pro = await getProfileAccount(sdk, profileAccount as PublicKey);
-          console.log(pro);
+          // const pro = await getProfileAccount(sdk, profileAccount as PublicKey);
+          // console.log(pro);
           if (profileAccount) {
             setProfile(profileAccount);
           } else {
@@ -87,6 +88,7 @@ const CreatePost = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     const session = await updateSession();
 
     if (!session) {
@@ -156,6 +158,7 @@ const CreatePost = () => {
     setPosts((prevState) => [metadata, ...prevState]);
 
     setPost("");
+    setLoading(false);
   };
 
   return (
@@ -188,7 +191,7 @@ const CreatePost = () => {
               type="submit"
               className="button bg-[#3F75DC] text-white mt-5"
             >
-              Submit
+              {loading ? "Loading..." : " Submit"}
             </button>
           </form>
         </div>

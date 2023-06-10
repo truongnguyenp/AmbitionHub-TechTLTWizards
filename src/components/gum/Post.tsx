@@ -18,6 +18,8 @@ export interface PostMetadata {
     content: string;
     format: string;
     image: string;
+    publicKey: string;
+    time: number;
   };
   address: string;
   reply?: () => any;
@@ -41,7 +43,7 @@ function Post({
       {data && profileData ? (
         <Card css={{ mw: "700px" }}>
           <Card.Body>
-            <Link href={"/profile"}>
+            <Link href={`/profile/${data.content.publicKey}`}>
               <User
                 src={profileData.avatar}
                 name={profileData.name}
