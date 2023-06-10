@@ -9,8 +9,8 @@ import {
   Image,
   Button,
 } from "@nextui-org/react";
-import { ReplyButton, LikeButton } from "./Button";
 import Link from "next/link";
+import CandyPayHelper from "@/lib/candyPay";
 
 export interface PostMetadata {
   type: string;
@@ -19,6 +19,7 @@ export interface PostMetadata {
     format: string;
     image: string;
   };
+  address: string;
   reply?: () => any;
 }
 
@@ -76,7 +77,10 @@ function Post({
               rounded
               bordered={true}
               onClick={() => {
-                alert("Text");
+                CandyPayHelper.tran(data.address).then((data) => {
+                  console.log(data.payment_url);
+                  window.location.href = data.payment_url;
+                });
               }}
             >
               Donate

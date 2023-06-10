@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@candypay/checkout-sdk": "^0.1.56",
     "@gumhq/react-sdk": "^2.1.0",
     "@gumhq/ui-components": "^2.0.4",
     "@nextui-org/react": "^1.0.0-beta.13",
