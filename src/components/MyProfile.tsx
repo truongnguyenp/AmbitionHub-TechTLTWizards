@@ -27,7 +27,7 @@ export function MyProfile() {
   return (
     <div>
       <Profile data={profileData} />
-      <button>Invest</button>
+      <button className="px-8">Invest</button>
     </div>
   );
 }
