@@ -41,8 +41,6 @@ export function SocialFeed() {
     setFeeds(feedsData);
   };
 
-  console.log("feed", feeds);
-
   return (
     <div>
       {feeds &&

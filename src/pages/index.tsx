@@ -10,12 +10,7 @@ function Home() {
     <>
       <Header />
       <main className={styles.main}>
-        {/* <div className={styles.container}>
-          <MyProfile />
-        </div> */}
-        {/* <CreatePost /> */}
         <SocialFeed />
-        {/* <GumUserCreateButton /> */}
       </main>
     </>
   );
