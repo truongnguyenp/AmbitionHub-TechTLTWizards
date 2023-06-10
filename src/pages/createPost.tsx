@@ -48,6 +48,9 @@ const CreatePost = () => {
   const [profile, setProfile] = useState<PublicKey | undefined>(undefined);
   const [posts, setPosts] = useState<Post[]>([]);
   const [image, setImage] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [target, setTarget] = useState<number>(0);
+  const [duration, setDuration] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
@@ -58,8 +61,6 @@ const CreatePost = () => {
         if (userAccount) {
           setUser(userAccount);
           const profileAccount = await getProfileAccount(sdk, userAccount);
-          // const pro = await getProfileAccount(sdk, profileAccount as PublicKey);
-          // console.log(pro);
           if (profileAccount) {
             setProfile(profileAccount);
           } else {
@@ -88,11 +89,16 @@ const CreatePost = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!post || !title || !image || !target || !duration) {
+      alert("Missing parameter!");
+      return;
+    }
     setLoading(true);
     const session = await updateSession();
 
     if (!session) {
       console.log("missing session");
+      setLoading(false);
       return;
     }
     if (
@@ -105,6 +111,7 @@ const CreatePost = () => {
     ) {
       console.log(` profile: ${profile} user: ${user}`);
       console.log("missing session or profile or user");
+      setLoading(false);
       return;
     }
 
@@ -121,6 +128,9 @@ const CreatePost = () => {
         image: image,
         format: "markdown",
         publicKey: wallet.publicKey,
+        title,
+        target,
+        duration,
       },
       type: "text",
       authorship: {
@@ -129,13 +139,14 @@ const CreatePost = () => {
       },
       metadataUri: "",
       transactionUrl: "",
-      platform: "ambitionHub",
+      platform: "AmbitionHub",
     };
 
     // upload the post to arweave
     const uploader = await handleUpload(metadata, session);
     if (!uploader) {
       console.log("error uploading post");
+      setLoading(false);
       return;
     }
 
@@ -150,6 +161,7 @@ const CreatePost = () => {
     );
     if (!txRes) {
       console.log("error creating post");
+      setLoading(false);
       return;
     }
     metadata.metadataUri = uploader.url;
@@ -167,6 +179,16 @@ const CreatePost = () => {
       <main className="w-full">
         <div className="w-3/4 m-auto mt-4">
           <form onSubmit={handleSubmit}>
+            <div>
+              <input
+                type="text"
+                id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Title..."
+                className="w-full px-6 py-1 border-[1px] border-gray-400 rounded-md mt-4"
+              />
+            </div>
             <div>
               <textarea
                 id="content"
@@ -186,7 +208,28 @@ const CreatePost = () => {
                 className="w-full px-6 py-1 border-[1px] border-gray-400 rounded-md mt-4"
               />
             </div>
-
+            <div className="mt-4">
+              <label htmlFor="target">Target ($)</label>
+              <input
+                type="text"
+                id="target"
+                value={target}
+                onChange={(e) => setTarget(+e.target.value)}
+                placeholder="Target ($)"
+                className="w-full px-6 py-1 border-[1px] border-gray-400 rounded-md mt-1"
+              />
+            </div>
+            <div className="mt-4">
+              <label htmlFor="duration">Duration (day)</label>
+              <input
+                type="text"
+                id="duration"
+                value={duration}
+                onChange={(e) => setDuration(+e.target.value)}
+                placeholder="Duration (day)"
+                className="w-full px-6 py-1 border-[1px] border-gray-400 rounded-md mt-1"
+              />
+            </div>
             <button
               type="submit"
               className="button bg-[#3F75DC] text-white mt-5"
@@ -195,7 +238,7 @@ const CreatePost = () => {
             </button>
           </form>
         </div>
-        <Post posts={posts} />
+        {/* <Post posts={posts} /> */}
       </main>
     </>
   );

@@ -21,6 +21,9 @@ export interface PostMetadata {
     image: string;
     publicKey: string;
     time: number;
+    title: string;
+    duration: number;
+    target: number;
   };
   address: string;
   reply?: () => any;
@@ -29,9 +32,11 @@ export interface PostMetadata {
 function Post({
   data,
   profileData,
+  address,
 }: {
   data: PostMetadata;
   profileData: ProfileMetadata;
+  address: string;
 }) {
   const likeData = {
     liked: false,
@@ -39,10 +44,23 @@ function Post({
     unlike: async () => alert("Unlike"),
   };
 
+  const renderTagPost = (time: number, duration: number) => {
+    const isOpening: number =
+      time + duration * 24 * 60 * 60 * 1000 - new Date().getTime();
+
+    return (
+      <span className="inline-block px-6 py-2 rounded-lg font-semibold text-white bg-[#ED1651]">
+        {isOpening > 0 ? "Opening" : "Closed"}
+      </span>
+    );
+  };
+
+  // console.log(data, profileData);
+
   return (
     <>
       {data && profileData ? (
-        <Card css={{ mw: "700px" }}>
+        <Card css={{ width: "100%", position: "relative", padding: "10px" }}>
           <Card.Body>
             <Link href={`/profile/${data.content.publicKey}`}>
               <User
@@ -63,26 +81,29 @@ function Post({
             >
               {formatTime(data.content.time)}
             </Text>
-            <Spacer y={0.5} />
-            <Text
-              css={{
-                padding: "0 0.75rem",
-              }}
-            >
-              {data.content.content}
-            </Text>
-            <Spacer y={1} />
-            <Image
-              //   width={'auto'}
-              //   height={180}
-              src={data.content.image as string}
-              alt="Default Image"
-              objectFit="cover"
-            />
-            <Spacer y={1} />
-            {/* <div className="flex items-center gap-3 mb-4">
-              <LikeButton data={likeData} />
-            </div> */}
+            <Link href={`post/${address}`} className="cursor-pointer">
+              <p className="truncate text-xl text-black font-medium mb-2">
+                {" "}
+                {data.content.title}
+              </p>
+
+              <Image
+                src={data.content.image as string}
+                alt="Default Image"
+                objectFit="cover"
+              />
+              <Text
+                css={{
+                  padding: "0 0.75rem",
+                  fontSize: "20px",
+                  margin: "8px 0",
+                  color: "#F9153E",
+                  fontWeight: 700,
+                }}
+              >
+                {`Với mục tiêu: ${data.content.target} $ trong vòng ${data.content.duration} ngày`}
+              </Text>
+            </Link>
             <Button
               auto
               rounded
@@ -97,6 +118,9 @@ function Post({
               Donate
             </Button>
           </Card.Body>
+          <div className="absolute top-4 right-2">
+            {renderTagPost(data.content.time, data.content.duration)}
+          </div>
         </Card>
       ) : (
         <Loading size="md" />

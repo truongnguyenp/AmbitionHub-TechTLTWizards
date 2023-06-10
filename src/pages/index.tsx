@@ -9,7 +9,7 @@ function Home() {
   return (
     <>
       <Header />
-      <main className={styles.main}>
+      <main className="w-full px-10 mt-10">
         <SocialFeed />
       </main>
     </>

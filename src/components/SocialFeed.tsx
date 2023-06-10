@@ -16,40 +16,45 @@ export function SocialFeed() {
   );
 
   useEffect(() => {
-    if (exploreFeedData) {
-      testGetData(exploreFeedData);
-    }
+    const getData = async () => {
+      if (exploreFeedData) {
+        await testGetData(exploreFeedData);
+      }
+    };
+    getData();
   }, [exploreFeedData]);
 
   const testGetData = async (data: any) => {
     setLoading(true);
-    let feedsData = [];
-    for (const post of data) {
-      if (post.metadata.platform === "ambitionHub") {
-        if (post.metadata.content.publicKey) {
-          const profileMeta =
-            await sdk.profileMetadata.getProfileMetadataByUser(
-              new PublicKey(post.metadata.content.publicKey)
-            );
-          const profileData = profileMeta[0].metadata;
-          const metadata = post.metadata;
-          const postCustom = {
-            post: {
-              type: metadata.type,
-              content: metadata.content,
-            } as PostMetadata,
-            profile: profileData,
-          };
-          feedsData.push(postCustom);
-        }
-      }
-    }
+    const filteredData = data.filter(
+      (post: any) =>
+        post.metadata.platform === "AmbitionHub" &&
+        post.metadata.content.publicKey
+    );
+    console.log(filteredData);
+    const promises = filteredData.map(async (post: any) => {
+      const profileMeta = await sdk.profileMetadata.getProfileMetadataByUser(
+        new PublicKey(post.metadata.content.publicKey)
+      );
+      const profileData = profileMeta[0].metadata;
+      const { type, content } = post.metadata;
+      return {
+        post: {
+          type,
+          content,
+        } as PostMetadata,
+        profile: profileData,
+        address: post.address,
+      };
+    });
+
+    const feedsData = await Promise.all(promises);
     setFeeds(feedsData);
     setLoading(false);
   };
 
   return (
-    <div>
+    <div className="w-full flex flex-wrap justify-between items-stretch">
       {exploreFeedLoading || loading ? (
         <SkeletonWrapper>
           <div className="w-[700px]">
@@ -79,8 +84,12 @@ export function SocialFeed() {
         feeds &&
         // <Feed posts={feed} skip={0} show={feed ? feed.length : 0} gap={0.5} />
         feeds.map((feed: any, index: number) => (
-          <div key={index} className="mb-16">
-            <Post data={feed.post} profileData={feed.profile} />
+          <div key={index} className="mb-16 w-[calc(50%-30px)] p-5">
+            <Post
+              data={feed.post}
+              profileData={feed.profile}
+              address={feed.address}
+            />
           </div>
         ))
       )}
