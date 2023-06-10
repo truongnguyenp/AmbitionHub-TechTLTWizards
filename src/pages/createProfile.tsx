@@ -39,6 +39,8 @@ function CreateProfile() {
     setLoading(true);
     if (!publicKey) {
       console.log("no public key");
+      alert("You must connect your wallet!");
+      setLoading(false);
       return;
     }
 
@@ -65,6 +67,7 @@ function CreateProfile() {
       const uploadRes = await handleUpload(profileMetadata, wallet);
       if (!uploadRes) {
         console.error("error uploading profile metadata");
+        setLoading(false);
         return false;
       }
 
@@ -79,11 +82,14 @@ function CreateProfile() {
         .rpc();
       if (!res) {
         console.error("error creating profile");
+        setLoading(false);
         return false;
       }
+      setLoading(false);
       router.push("/createPost");
     } else {
       alert("You already have a profile, redirecting to home page");
+      setLoading(false);
       router.push("/createPost");
     }
 

@@ -11,6 +11,7 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import CandyPayHelper from "@/lib/candyPay";
+import { formatTime } from "@/utils/formatTime";
 
 export interface PostMetadata {
   type: string;
@@ -54,6 +55,14 @@ function Post({
                 <User.Link>@{profileData.username}</User.Link>
               </User>
             </Link>
+            <Text
+              css={{
+                padding: "0.25rem 0.75rem",
+                fontSize: "12px",
+              }}
+            >
+              {formatTime(data.content.time)}
+            </Text>
             <Spacer y={0.5} />
             <Text
               css={{
