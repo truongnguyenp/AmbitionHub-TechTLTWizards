@@ -1,6 +1,10 @@
 import { SDK, useGumContext, useProfile } from "@gumhq/react-sdk";
-import { Profile } from "@gumhq/ui-components";
+// import { Profile } from "@gumhq/ui-components";
 import { PublicKey } from "@solana/web3.js";
+import { Profile, ProfileMetadata } from "./gum/Profile";
+import { Post } from "./gum/Post";
+import { PostMetadata } from "./gum/Post";
+import CreatePost from "./CreatePost";
 
 export function MyProfile() {
   const { sdk } = useGumContext();
@@ -24,10 +28,19 @@ export function MyProfile() {
     },
   };
 
+  // const profile: ProfileMetadata = {...}
+  const post: PostMetadata = {
+    type: "text",
+    content: {
+      format: "markdown",
+      content: "Hello World",
+    },
+  };
+
   return (
-    <div>
+    <div className="w-full flex flex-col items-center">
+      {/* <CreatePost /> */}
       <Profile data={profileData} />
-      <button className="px-8">Invest</button>
     </div>
   );
 }
