@@ -117,7 +117,7 @@ function Post({
                 {`Duration: ${data.content.duration} day`}
               </Text>
             </Link>
-            
+
             <input
               type="number"
               value={money}
@@ -130,7 +130,7 @@ function Post({
               rounded
               bordered={true}
               onClick={() => {
-                CandyPayHelper.tran(data.address, data.content.publicKey, profileData.username, data.content.image, money).then((data) => {
+                CandyPayHelper.tran(data.address).then((data) => {
                   console.log(data.payment_url);
                   window.location.href = data.payment_url;
                 });

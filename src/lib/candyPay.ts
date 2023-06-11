@@ -1,12 +1,8 @@
 import { CandyPay } from "@candypay/checkout-sdk";
 import type { NextApiHandler } from "next";
 
-import { sign } from "jsonwebtoken";
-
-const jwtid = "jasdnasndknajbwknjaadad";
-
 export default class CandyPayHelper {
-  static tran = async (projectid: string, profileid: string, projectname: string, imageurl: string, price: number) => {
+  static tran = async (projectid: string) => {
     let sdk = new CandyPay({
       api_keys: {
         private_api_key: "cp_private_VppuxpyE_kJeuib8dYM9zQuEGz7n9aU7b",
@@ -17,31 +13,23 @@ export default class CandyPayHelper {
         collect_shipping_address: false,
       },
     });
-    var tokensuccess = sign({
-      projectid: projectid,
-      profileid: profileid,
-      type: "success"
-    } as object, jwtid);
-    var tokencancel = sign({
-      projectid: projectid,
-      profileid: profileid,
-      type: "cancel"
-    } as object, jwtid);
+
     const response = await sdk.session.create({
-      success_url: `http://localhost:3000/success/` + 
-      tokensuccess,
-      cancel_url: `http://localhost:3000/cancel/` + tokencancel
-      ,
+      success_url: `http://localhost:3000/success/1`,
+      cancel_url: `http://localhost:3000/cancel/2`,
       tokens: [],
       items: [
         {
-          name: projectname,
+          name: "Solana Shades",
           // price in USD
-          price: price,
-          image: imageurl,
+          price: 0.1,
+          image: "https://imgur.com/M0l5SDh.png",
           quantity: 1,
         },
-      ]
+      ],
+      metadata: {
+        projectid: projectid,
+      },
     });
     return response;
   };

@@ -1,8 +1,14 @@
 import Header from "@/components/Header";
 import Link from "next/link";
 // import { Post } from "./createPost";
+import { useRouter } from "next/router";
+import { decode } from "jsonwebtoken";
+
+const jwtid = "jasdnasndknajbwknjaadad";
 
 function Success() {
+  const router = useRouter();
+  const { id } = router.query;
   return (
     <>
       <Header />
