@@ -40,17 +40,6 @@ function Profile() {
         //   console.log(profile);
         const profileCustom = {
           ...(profile[0]?.metadata as any),
-          // following: profile[0]?.following || 0,
-          // followers: profile[0]?.followers || 0,
-          // connect: {
-          //   following: false,
-          //   follow: () => {
-          //     alert("follow");
-          //   },
-          //   unfollow: () => {
-          //     alert("unfollow");
-          //   },
-          // },
         };
 
         setprofileData(profileCustom);
@@ -67,7 +56,7 @@ function Profile() {
         if (data) {
           let postsData = [];
           for (const post of data as any) {
-            if (post.metadata.platform === "ambitionHub") {
+            if (post.metadata.platform === "AmbitionHub") {
               postsData.push(post);
             }
           }
@@ -90,7 +79,7 @@ function Profile() {
 
           <div>
             <div className="text-center mt-5">
-              <h4 className="text-black font-semibold text-3xl">{`Posts`}</h4>
+              <h4 className="text-black font-semibold text-3xl mb-5">{`Post's ${profileData.name}`}</h4>
             </div>
             <div className="flex flex-col items-center">
               {posts.length > 0 ? <Post posts={posts} /> : null}

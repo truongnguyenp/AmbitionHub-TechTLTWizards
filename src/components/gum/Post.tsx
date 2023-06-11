@@ -61,20 +61,22 @@ function Post({
 
   return (
     <>
-      {data && profileData ? (
+      {data ? (
         <Card css={{ width: "100%", position: "relative", padding: "10px" }}>
           <Card.Body>
-            <Link href={`/profile/${data.content.publicKey}`}>
-              <User
-                src={profileData.avatar}
-                name={profileData.name}
-                size="md"
-                bordered
-                color="secondary"
-              >
-                <User.Link>@{profileData.username}</User.Link>
-              </User>
-            </Link>
+            {profileData ? (
+              <Link href={`/profile/${data.content.publicKey}`}>
+                <User
+                  src={profileData.avatar}
+                  name={profileData.name}
+                  size="md"
+                  bordered
+                  color="secondary"
+                >
+                  <User.Link>@{profileData.username}</User.Link>
+                </User>
+              </Link>
+            ) : null}
             <Text
               css={{
                 padding: "0.25rem 0.75rem",
@@ -85,7 +87,6 @@ function Post({
             </Text>
             <Link href={`post/${address}`} className="cursor-pointer">
               <p className="truncate text-xl text-black font-medium mb-2">
-                {" "}
                 {data.content.title}
               </p>
 
@@ -98,12 +99,22 @@ function Post({
                 css={{
                   padding: "0 0.75rem",
                   fontSize: "20px",
-                  margin: "8px 0",
                   color: "#F9153E",
                   fontWeight: 700,
                 }}
               >
-                {`Với mục tiêu: ${data.content.target} $ trong vòng ${data.content.duration} ngày`}
+                {`Target: ${data.content.target} $`}
+              </Text>
+              <Text
+                css={{
+                  padding: "0 0.75rem",
+                  fontSize: "20px",
+                  color: "#F9153E",
+                  fontWeight: 700,
+                  margin: "10px 0",
+                }}
+              >
+                {`Duration: ${data.content.duration} day`}
               </Text>
             </Link>
             
