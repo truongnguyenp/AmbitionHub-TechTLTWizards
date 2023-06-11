@@ -12,6 +12,7 @@ import {
 import Link from "next/link";
 import CandyPayHelper from "@/lib/candyPay";
 import { formatTime } from "@/utils/formatTime";
+import { useEffect, useState } from "react";
 
 export interface PostMetadata {
   type: string;
@@ -43,6 +44,7 @@ function Post({
     like: async () => alert("Like"),
     unlike: async () => alert("Unlike"),
   };
+  const [money, setMoney] = useState("");
 
   const renderTagPost = (time: number, duration: number) => {
     const isOpening: number =
@@ -104,12 +106,20 @@ function Post({
                 {`Với mục tiêu: ${data.content.target} $ trong vòng ${data.content.duration} ngày`}
               </Text>
             </Link>
+            
+            <input
+              type="number"
+              value={money}
+              onChange={(e) => setMoney(e.target.value)}
+              placeholder="Money"
+              className="px-7 py-2 border-[1px] border-gray-500 rounded-lg w-full mb-4"
+            />
             <Button
               auto
               rounded
               bordered={true}
               onClick={() => {
-                CandyPayHelper.tran(data.address).then((data) => {
+                CandyPayHelper.tran(data.address, data.content.publicKey, profileData.username, data.content.image, money).then((data) => {
                   console.log(data.payment_url);
                   window.location.href = data.payment_url;
                 });
