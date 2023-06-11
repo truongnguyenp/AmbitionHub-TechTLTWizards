@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@candypay/checkout-sdk": "^0.1.56",
     "@gumhq/react-sdk": "^2.1.0",
     "@gumhq/ui-components": "^2.0.4",
     "@nextui-org/react": "^1.0.0-beta.13",
@@ -17,11 +18,13 @@
     "@solana/wallet-adapter-react-ui": "^0.9.29",
     "@solana/wallet-adapter-wallets": "^0.19.15",
     "@solana/web3.js": "^1.73.3",
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/node": "18.14.1",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
     "eslint": "8.34.0",
     "eslint-config-next": "13.2.1",
+    "jsonwebtoken": "^9.0.0",
     "next": "13.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",

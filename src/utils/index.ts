@@ -22,38 +22,31 @@ export const getAllPost = async (sdk: SDK, owner: PublicKey) => {
   if (!owner) {
     return;
   }
-  const allPosts = await sdk.post.getPostAccountsByUser(owner);
+  const allPosts = await sdk.post.getPostsByUser(owner);
 
   // Filter posts with metadataUri that starts with "https://arweave.net"
-  const filteredPosts = allPosts.filter(
-    (element: { account: { metadataUri: string } }) =>
-      element.account.metadataUri &&
-      element.account.metadataUri.startsWith("https://arweave.net")
+  const filteredPosts = allPosts.filter((element) =>
+    element.metadata_uri?.startsWith("https://arweave.net")
   );
 
   // Iterate over filtered posts and get the content
   const posts = await Promise.all(
-    filteredPosts.map(
-      async (element: {
-        account: { metadataUri: RequestInfo | URL };
-        publicKey: any;
-      }) => {
-        const response = await fetch(element.account.metadataUri);
-        const data = await response.json();
-        // include metadataUri in the data
-        data.metadataUri = element.account.metadataUri;
-        // how to get the transaction id of an solana account?
-        const txSignature = await sdk.rpcConnection.getSignaturesForAddress(
-          element.publicKey
-        );
-        if (txSignature.length === 0) {
-          return data;
-        }
-        const txUrl = `https://solana.fm/tx/${txSignature[0].signature}?cluster=devnet-solana`;
-        data.transactionUrl = txUrl;
-        return data as Post;
+    filteredPosts.map(async (element) => {
+      const response = await fetch(element.metadata_uri as RequestInfo | URL);
+      const data = await response.json();
+      // include metadataUri in the data
+      data.metadataUri = element.metadata_uri;
+      // how to get the transaction id of an solana account?
+      const txSignature = await sdk.rpcConnection.getSignaturesForAddress(
+        new PublicKey(element.address)
+      );
+      if (txSignature.length === 0) {
+        return data;
       }
-    )
+      const txUrl = `https://solana.fm/tx/${txSignature[0].signature}?cluster=devnet-solana`;
+      data.transactionUrl = txUrl;
+      return data as Post;
+    })
   );
   return posts as Post[];
 };

@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Bagel+Fat+One&display=swap");
+
 .button {
   @apply px-8 py-2 rounded-lg font-semibold;
+}
+
+.logo {
+  font-family: "Bagel Fat One", cursive;
 }

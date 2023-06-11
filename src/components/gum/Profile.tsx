@@ -26,11 +26,11 @@ export interface ProfileMetadata {
 
 function Profile({ data }: { data: ProfileMetadata }) {
   function handleFollow() {
-    data?.connect?.follow();
+    // data?.connect?.follow();
   }
 
   function handleUnfollow() {
-    data?.connect?.unfollow();
+    // data?.connect?.unfollow();
   }
 
   return (
@@ -70,7 +70,7 @@ function Profile({ data }: { data: ProfileMetadata }) {
             <Container css={{ padding: "0 0.75rem" }}>
               <Text>{data.bio}</Text>
               <Spacer y={0.5} />
-              <Row>
+              {/* <Row>
                 <Text color="gray" weight="medium" size="$sm">
                   {data.following} {"Following"}
                 </Text>
@@ -78,7 +78,7 @@ function Profile({ data }: { data: ProfileMetadata }) {
                 <Text color="gray" weight="medium" size="$sm">
                   {data.followers} {"Followers"}
                 </Text>
-              </Row>
+              </Row> */}
             </Container>
           </Card.Body>
         </Card>
