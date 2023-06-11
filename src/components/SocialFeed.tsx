@@ -85,7 +85,7 @@ export function SocialFeed() {
         feeds &&
         // <Feed posts={feed} skip={0} show={feed ? feed.length : 0} gap={0.5} />
         feeds.map((feed: any, index: number) => (
-          <div key={index} className="mb-16 w-[calc(33%-20px)] p-5">
+          <div key={index} className="mb-8 w-[calc(33%-20px)] p-5">
             <Post
               data={feed.post}
               profileData={feed.profile}

@@ -40,7 +40,7 @@ const Header = () => {
         <div className={styles.logo}>
           <Link href="/">
             <span className="text-2xl font-bold text-black logo">
-              Ambition Hub
+              Aspiration Hub
             </span>
           </Link>
         </div>

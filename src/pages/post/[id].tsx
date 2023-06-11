@@ -68,11 +68,11 @@ function Post() {
               className="w-1/2"
             />
             <div className="w-1/2 pl-5">
-              <p className="text-[#F9153E] font-bold text-xl mb-5">{`Thời gian bắt đầu : ${formatDate(
+              <p className="text-[#F9153E] font-bold text-xl mb-5">{`Start time : ${formatDate(
                 postData.metadata.content.time
               )}`}</p>
-              <p className="text-[#F9153E] font-bold text-xl mb-5">{`Thời gian : ${postData.metadata.content.duration} day`}</p>
-              <p className="text-[#F9153E] font-bold text-xl">{`Mục tiêu: ${postData.metadata.content.target} $`}</p>
+              <p className="text-[#F9153E] font-bold text-xl mb-5">{`Duration : ${postData.metadata.content.duration} day`}</p>
+              <p className="text-[#F9153E] font-bold text-xl">{`Target : ${postData.metadata.content.target} $`}</p>
               <div className="mt-20 w-full">
                 <button
                   className="w-full border-[2px] border-[#0072f5] py-3 rounded-xl text-[#0072f5] font-semibold

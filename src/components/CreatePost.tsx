@@ -9,7 +9,6 @@ import { GPLCORE_PROGRAMS } from "@gumhq/sdk";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
 import { useEffect, useState } from "react";
-import styles from "@/styles/Home.module.css";
 import Post from "@/components/Post";
 import { useRouter } from "next/router";
 
@@ -143,6 +142,7 @@ const CreatePost = () => {
     setPosts((prevState) => [metadata, ...prevState]);
 
     setPost("");
+    router.push("/");
   };
 
   return (
