@@ -1,30 +1,61 @@
 import styles from "@/styles/Home.module.css";
-import Image from "next/image";
+import { Card, User, Text, Image, Button } from "@nextui-org/react";
+import { formatTime } from "@/utils/formatTime";
+import Link from "next/link";
+import CandyPayHelper from "@/lib/candyPay";
 
 const Post = ({ posts }: any) => {
   console.log(posts);
   return (
-    <div className="w-[700px] m-auto">
+    <div className="w-full m-auto px-20 flex items-center flex-wrap justify-center">
       {posts.map((post: any, index: number) => (
-        <div className={styles.post} key={index}>
-          <div>
-            <div className="mb-4">
-              <div className={styles.postText}>
-                {post.metadata.content.content}
-              </div>
-            </div>
-            <div className="flex justify-center">
-              {post.metadata.content.image ? (
-                <Image
-                  className={styles.logo}
-                  src={post.metadata.content.image}
-                  alt="Image "
-                  width={600}
-                  height={400}
-                />
-              ) : null}
-            </div>
-          </div>
+        <div
+          className="border-[1px] border-gray-400 p-6 rounded-md mb-8 w-1/3 mr-5"
+          key={index}
+        >
+          <Text
+            css={{
+              padding: "0.25rem 0.75rem",
+              fontSize: "12px",
+            }}
+          >
+            {formatTime(post.metadata.content.time)}
+          </Text>
+          <Link href={`/post/${post.address}`} className="cursor-pointer">
+            <p className="truncate text-xl text-black font-medium mb-2">
+              {post.metadata.content.title}
+            </p>
+
+            <Image
+              src={post.metadata.content.image as string}
+              alt="Default Image"
+              objectFit="cover"
+            />
+            <Text
+              css={{
+                padding: "0 0.75rem",
+                fontSize: "20px",
+                margin: "8px 0",
+                color: "#F9153E",
+                fontWeight: 700,
+              }}
+            >
+              {`Với mục tiêu: ${post.metadata.content.target} $ trong vòng ${post.metadata.content.duration} ngày`}
+            </Text>
+          </Link>
+          <Button
+            auto
+            rounded
+            bordered={true}
+            onClick={() => {
+              CandyPayHelper.tran(post.metadata.address).then((data) => {
+                console.log(data.payment_url);
+                window.location.href = data.payment_url;
+              });
+            }}
+          >
+            Donate
+          </Button>
           {/* <div className={styles.logos}>
             <a
               href={post.metadata.metadataUri}

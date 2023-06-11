@@ -31,7 +31,6 @@ export function SocialFeed() {
         post.metadata.platform === "AmbitionHub" &&
         post.metadata.content.publicKey
     );
-    console.log(filteredData);
     const promises = filteredData.map(async (post: any) => {
       const profileMeta = await sdk.profileMetadata.getProfileMetadataByUser(
         new PublicKey(post.metadata.content.publicKey)
@@ -54,37 +53,39 @@ export function SocialFeed() {
   };
 
   return (
-    <div className="w-full flex flex-wrap justify-between items-stretch">
+    <div className="w-full flex flex-wrap justify-center items-stretch">
       {exploreFeedLoading || loading ? (
         <SkeletonWrapper>
-          <div className="w-[700px]">
-            <div className="flex items-center mb-2">
-              <Skeleton className="w-8 h-8 rounded-full mr-2" />
-              <div>
-                <Skeleton className="h-2 w-20 mb-2" />
-                <Skeleton className="h-2 w-20" />
+          <div className="flex items-center justify-around w-full">
+            <div className="w-1/2 mr-32">
+              <div className="flex items-center mb-2">
+                <Skeleton className="w-10 h-10 rounded-full mr-2" />
+                <div>
+                  <Skeleton className="h-3 w-32 mb-2" />
+                  <Skeleton className="h-3 w-32" />
+                </div>
               </div>
+              <Skeleton className="w-full h-52" />
+              <Skeleton className="w-full h-52 mt-10" />
             </div>
-            <Skeleton className="w-[90%] h-40" />
-            <Skeleton className="w-[90%] h-40 mt-10" />
-          </div>
-          <div className="w-[700px] mt-10">
-            <div className="flex items-center mb-2">
-              <Skeleton className="w-8 h-8 rounded-full mr-2" />
-              <div>
-                <Skeleton className="h-2 w-20 mb-2" />
-                <Skeleton className="h-2 w-20" />
+            <div className="w-1/2 ">
+              <div className="flex items-center mb-2">
+                <Skeleton className="w-10 h-10 rounded-full mr-2" />
+                <div>
+                  <Skeleton className="h-3 w-32 mb-2" />
+                  <Skeleton className="h-3 w-32" />
+                </div>
               </div>
+              <Skeleton className="w-full h-52" />
+              <Skeleton className="w-full h-52 mt-10" />
             </div>
-            <Skeleton className="w-[90%] h-40" />
-            <Skeleton className="w-[90%] h-40 mt-10" />
           </div>
         </SkeletonWrapper>
       ) : (
         feeds &&
         // <Feed posts={feed} skip={0} show={feed ? feed.length : 0} gap={0.5} />
         feeds.map((feed: any, index: number) => (
-          <div key={index} className="mb-16 w-[calc(50%-30px)] p-5">
+          <div key={index} className="mb-16 w-[calc(33%-20px)] p-5">
             <Post
               data={feed.post}
               profileData={feed.profile}

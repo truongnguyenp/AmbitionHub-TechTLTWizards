@@ -59,20 +59,22 @@ function Post({
 
   return (
     <>
-      {data && profileData ? (
+      {data ? (
         <Card css={{ width: "100%", position: "relative", padding: "10px" }}>
           <Card.Body>
-            <Link href={`/profile/${data.content.publicKey}`}>
-              <User
-                src={profileData.avatar}
-                name={profileData.name}
-                size="md"
-                bordered
-                color="secondary"
-              >
-                <User.Link>@{profileData.username}</User.Link>
-              </User>
-            </Link>
+            {profileData ? (
+              <Link href={`/profile/${data.content.publicKey}`}>
+                <User
+                  src={profileData.avatar}
+                  name={profileData.name}
+                  size="md"
+                  bordered
+                  color="secondary"
+                >
+                  <User.Link>@{profileData.username}</User.Link>
+                </User>
+              </Link>
+            ) : null}
             <Text
               css={{
                 padding: "0.25rem 0.75rem",
